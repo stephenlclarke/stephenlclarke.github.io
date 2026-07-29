@@ -29,14 +29,13 @@ Open <http://localhost:8000>. Run `make build` to assemble the deployable static
 
 Run `make sync` to perform the same public discovery locally. No broad personal access token is required; the GitHub Actions workflow uses its repository-scoped token only for API rate limiting and committing catalogue changes.
 
-## Publishing at the account root
+## Production publishing
 
-GitHub reserves `https://stephenlclarke.github.io/` for a user site published from a repository named `stephenlclarke.github.io`. This private `pages_home` repository can remain the source repository, but production deployment to the account root needs either:
+The repository is named `stephenlclarke.github.io`, which makes the production URL:
 
-1. a `stephenlclarke/stephenlclarke.github.io` deployment repository; or
-2. this repository renamed to `stephenlclarke.github.io`.
+<https://stephenlclarke.github.io/>
 
-An arbitrary repository named `pages_home` publishes as a project site at `https://stephenlclarke.github.io/pages_home/`, not at the account root.
+The `Deploy GitHub Pages` workflow validates and builds the static site before publishing `_site`. Pushes to `main`, including automatic project-catalogue updates, deploy the refreshed homepage.
 
 ## Design source
 
