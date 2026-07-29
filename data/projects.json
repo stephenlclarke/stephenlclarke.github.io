@@ -1,0 +1,19 @@
+{
+  "owner": "stephenlclarke",
+  "projects": [
+    {
+      "repository": "container-compose",
+      "name": "Container Compose",
+      "description": "Docker Compose support for Apple’s container CLI.",
+      "documentationUrl": "https://stephenlclarke.github.io/container-compose/",
+      "repositoryUrl": "https://github.com/stephenlclarke/container-compose"
+    },
+    {
+      "repository": "devcontainer",
+      "name": "Devcontainer",
+      "description": "VS Code-compatible Dev Container tooling for Apple’s container runtime.",
+      "documentationUrl": "https://stephenlclarke.github.io/devcontainer/",
+      "repositoryUrl": "https://github.com/stephenlclarke/devcontainer"
+    }
+  ]
+}

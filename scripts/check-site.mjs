@@ -2,43 +2,44 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderHomepage, validateCatalog } from "./project-catalog.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const htmlPath = resolve(root, "index.html");
 const html = await readFile(htmlPath, "utf8");
 const css = await readFile(resolve(root, "styles.css"), "utf8");
+const catalog = validateCatalog(JSON.parse(await readFile(resolve(root, "data/projects.json"), "utf8")));
 
 const requiredCopy = [
   "Documentation for",
   "the things I build.",
   "Swift packages and developer tools,",
-  "Container Compose",
-  "Devcontainer",
 ];
 
 for (const text of requiredCopy) {
   assert.ok(html.includes(text), `Missing required copy: ${text}`);
 }
 
+assert.equal(html, renderHomepage(html, catalog.projects), "Homepage projects do not match the project catalog");
 assert.match(html, /<html lang="en">/);
 assert.match(html, /<main>/);
 assert.match(html, /<nav[^>]+aria-label="Primary navigation"/);
 assert.match(html, /class="skip-link" href="#projects"/);
 assert.equal(
   [...html.matchAll(/<article class="project-row">/g)].length,
-  2,
-  "The project directory must contain exactly two verified projects",
+  catalog.projects.length,
+  "The project directory must contain every catalogued project",
 );
 
-const expectedLinks = [
-  "https://stephenlclarke.github.io/container-compose/",
-  "https://stephenlclarke.github.io/devcontainer/",
-  "https://github.com/stephenlclarke/container-compose",
-  "https://github.com/stephenlclarke/devcontainer",
-];
+const expectedLinks = catalog.projects.flatMap((project) => [project.documentationUrl, project.repositoryUrl]);
 
 for (const link of expectedLinks) {
   assert.ok(html.includes(`href="${link}"`), `Missing project link: ${link}`);
+}
+
+for (const project of catalog.projects) {
+  assert.ok(html.includes(project.name), `Missing project name: ${project.name}`);
+  assert.ok(html.includes(project.description), `Missing project description: ${project.description}`);
 }
 
 assert.ok(css.includes("--color-background: #ffffff;"), "The design requires a true white background");
