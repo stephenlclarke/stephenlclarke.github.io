@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate site
+        run: make test
+
+      - name: Build static artifact
+        run: make build
+
+      - name: Upload static artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-home
+          path: _site
