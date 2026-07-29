@@ -45,6 +45,8 @@ for (const project of catalog.projects) {
 assert.ok(css.includes("--color-background: #ffffff;"), "The design requires a true white background");
 assert.ok(css.includes(".skip-link:focus"), "The keyboard skip link must have a visible focus state");
 assert.ok(css.includes("a:focus-visible"), "Links must have a visible focus treatment");
+assert.ok(!html.includes("Browse documentation"), "The removed hero button must not be rendered");
+assert.ok(!css.includes(".primary-link"), "Removed hero button styles must not remain");
 assert.ok(!html.includes('href="#"'), "Placeholder links are not allowed");
 
 const localReferences = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]
