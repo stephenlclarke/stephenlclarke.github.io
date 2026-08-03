@@ -3,8 +3,8 @@
 
 set -euo pipefail
 
-if (( $# != 7 )); then
-    printf 'usage: %s OUTPUT_PATH ENGINE_API_PATH CONTAINER_PATH CONTAINERIZATION_PATH CONTAINER_K8S_PATH BUILDER_SHIM_PATH CONTAINER_COMPOSE_PATH\n' "$0" >&2
+if (( $# != 8 )); then
+    printf 'usage: %s OUTPUT_PATH ENGINE_API_PATH CONTAINER_PATH CONTAINERIZATION_PATH CONTAINER_K8S_PATH BUILDER_SHIM_PATH CONTAINER_COMPOSE_PATH DEVCONTAINER_PATH\n' "$0" >&2
     exit 2
 fi
 
@@ -15,6 +15,7 @@ containerization_path="$4"
 container_k8s_path="$5"
 builder_shim_path="$6"
 container_compose_path="$7"
+devcontainer_path="$8"
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 
 if [[ -z "$output_path" || "$output_path" == "/" ]]; then
@@ -55,3 +56,4 @@ build_docc_site "$containerization_path" containerization
 build_docc_site "$container_k8s_path" container-k8s
 build_docc_site "$builder_shim_path" container-builder-shim
 build_docc_site "$container_compose_path" container-compose
+build_docc_site "$devcontainer_path" devcontainer

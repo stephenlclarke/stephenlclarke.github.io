@@ -69,6 +69,13 @@ jobs:
           ref: main
           path: sources/container-compose
 
+      - name: Check out devcontainer
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/devcontainer
+          ref: main
+          path: sources/devcontainer
+
       - name: Build container API collection
         run: |
           scripts/build-container-api-docs.sh \
@@ -78,7 +85,8 @@ jobs:
             "${GITHUB_WORKSPACE}/sources/containerization" \
             "${GITHUB_WORKSPACE}/sources/container-k8s" \
             "${GITHUB_WORKSPACE}/sources/container-builder-shim" \
-            "${GITHUB_WORKSPACE}/sources/container-compose"
+            "${GITHUB_WORKSPACE}/sources/container-compose" \
+            "${GITHUB_WORKSPACE}/sources/devcontainer"
 
       - name: Archive container API collection
         run: tar -czf "${RUNNER_TEMP}/container-api-docs.tgz" -C "${RUNNER_TEMP}/container-api" .
