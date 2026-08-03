@@ -8,6 +8,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const htmlPath = resolve(root, "index.html");
 const html = await readFile(htmlPath, "utf8");
 const containerApiHtml = await readFile(resolve(root, "api/index.html"), "utf8");
+const containerApiDoccTheme = await readFile(resolve(root, "api/docc-theme.css"), "utf8");
 const css = await readFile(resolve(root, "styles.css"), "utf8");
 const catalog = validateCatalog(JSON.parse(await readFile(resolve(root, "data/projects.json"), "utf8")));
 
@@ -68,6 +69,17 @@ for (const repository of containerApiRepositories) {
     containerApiHtml.includes(`https://github.com/stephenlclarke/${repository}`),
     `Missing container repository link: ${repository}`,
   );
+}
+
+assert.match(containerApiDoccTheme, /height: 80px;/, "DocC header icons must share the compact visual height");
+assert.match(
+  containerApiDoccTheme,
+  /__CONTAINER_API_HEADER_ICON_URL__/,
+  "The DocC theme must retain its per-repository icon placeholder",
+);
+
+for (const customHeaderIcon of ["container-k8s-header.png", "devcontainer-header.png"]) {
+  await access(resolve(root, "api/theme", customHeaderIcon));
 }
 
 for (const upstreamDocumentationUrl of [
