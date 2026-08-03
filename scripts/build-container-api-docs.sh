@@ -17,7 +17,14 @@ builder_shim_path="$6"
 container_compose_path="$7"
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 
-if [[ -z "$output_path" || "$output_path" == "/" || "$output_path" == "$repository_root" ]]; then
+if [[ -z "$output_path" || "$output_path" == "/" ]]; then
+    printf 'Refusing unsafe documentation output path: %s\n' "$output_path" >&2
+    exit 2
+fi
+
+mkdir -p "$output_path"
+output_path="$(cd "$output_path" && pwd -P)"
+if [[ "$output_path" == "$repository_root" ]]; then
     printf 'Refusing unsafe documentation output path: %s\n' "$output_path" >&2
     exit 2
 fi
