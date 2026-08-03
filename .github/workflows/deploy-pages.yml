@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "47 4 * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,7 +18,80 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  container-api-docs:
+    name: Build Container API Documentation
+    runs-on: macos-26
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v7
+
+      - name: Check out container-engine-api
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/container-engine-api
+          ref: main
+          path: sources/container-engine-api
+
+      - name: Check out container
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/container
+          ref: main
+          path: sources/container
+
+      - name: Check out containerization
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/containerization
+          ref: main
+          path: sources/containerization
+
+      - name: Check out container-k8s
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/container-k8s
+          ref: main
+          path: sources/container-k8s
+
+      - name: Check out container-builder-shim
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/container-builder-shim
+          ref: main
+          path: sources/container-builder-shim
+
+      - name: Check out container-compose
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/container-compose
+          ref: main
+          path: sources/container-compose
+
+      - name: Build container API collection
+        run: |
+          scripts/build-container-api-docs.sh \
+            "${RUNNER_TEMP}/container-api" \
+            "${GITHUB_WORKSPACE}/sources/container-engine-api" \
+            "${GITHUB_WORKSPACE}/sources/container" \
+            "${GITHUB_WORKSPACE}/sources/containerization" \
+            "${GITHUB_WORKSPACE}/sources/container-k8s" \
+            "${GITHUB_WORKSPACE}/sources/container-builder-shim" \
+            "${GITHUB_WORKSPACE}/sources/container-compose"
+
+      - name: Archive container API collection
+        run: tar -czf "${RUNNER_TEMP}/container-api-docs.tgz" -C "${RUNNER_TEMP}/container-api" .
+
+      - name: Upload container API artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: container-api-docs
+          path: ${{ runner.temp }}/container-api-docs.tgz
+          retention-days: 1
+
   build:
+    needs: container-api-docs
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +108,15 @@ jobs:
 
       - name: Build static site
         run: make build
+
+      - name: Download container API documentation
+        uses: actions/download-artifact@v8
+        with:
+          name: container-api-docs
+          path: ${{ runner.temp }}
+
+      - name: Add container API documentation
+        run: tar -xzf "${RUNNER_TEMP}/container-api-docs.tgz" -C _site/api
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6

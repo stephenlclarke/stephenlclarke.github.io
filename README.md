@@ -2,6 +2,12 @@
 
 A compact front door for Stephen Clarke's published developer documentation.
 
+## Container developer APIs
+
+The site publishes one atomic container API collection at <https://stephenlclarke.github.io/api/>. The collection contains DocC output generated from the current `stephenlclarke` forks of `container-engine-api`, `container`, `containerization`, `container-k8s`, `container-builder-shim`, and `container-compose` under stable repository-named paths. Fork documentation is always the primary destination; Apple upstream DocC or source repositories are linked secondarily for comparison where they exist.
+
+Each source repository owns its documentation build entrypoint and CI validation. The user-site deployment checks out their current `main` branches, builds all six sites on macOS, and merges them into the same Pages artifact as the homepage. This avoids competing Pages deployments and cross-repository write tokens. A daily scheduled build publishes source documentation updates even when this repository has not changed.
+
 ## Project catalogue
 
 Published documentation is tracked in `data/projects.json`. The project rows in `index.html` are generated from that catalogue.
@@ -35,7 +41,7 @@ The repository is named `stephenlclarke.github.io`, which makes the production U
 
 <https://stephenlclarke.github.io/>
 
-The `Deploy GitHub Pages` workflow validates and builds the static site before publishing `_site`. Pushes to `main`, including automatic project-catalogue updates, deploy the refreshed homepage.
+The `Deploy GitHub Pages` workflow validates and builds the static site and container API collection before publishing `_site`. Pushes to `main`, including automatic project-catalogue updates, deploy the refreshed homepage. The workflow can also be started manually and runs daily to pick up API changes from the source repositories.
 
 ## Design source
 
