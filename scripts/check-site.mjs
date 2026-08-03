@@ -59,6 +59,7 @@ const containerApiRepositories = [
   "container-k8s",
   "container-builder-shim",
   "container-compose",
+  "devcontainer",
 ];
 
 for (const repository of containerApiRepositories) {
