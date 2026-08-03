@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <a class="skip-link" href="#projects">Skip to projects</a>
+    <a class="skip-link" href="#documentation">Skip to documentation</a>
 
     <header class="site-header">
       <div class="page-rail header-content">
         <a class="brand" href="/" aria-label="Stephen Clarke homepage">Stephen Clarke</a>
         <nav class="site-nav" aria-label="Primary navigation">
-          <a href="#projects">Documentation</a>
+          <a href="#documentation">Documentation</a>
           <a href="https://github.com/stephenlclarke">GitHub</a>
         </nav>
       </div>
@@ -31,6 +31,21 @@
         <div class="hero-art" aria-hidden="true">
           <img src="assets/docc-illustration.png" alt="">
         </div>
+      </section>
+
+      <section class="collections page-rail" id="documentation" aria-labelledby="collections-title">
+        <h2 id="collections-title">API collections</h2>
+
+        <article class="collection-row">
+          <h3>Container developer APIs</h3>
+          <p>Fork-first DocC for the Engine boundary, runtime, Containerization, plugins, and BuildKit bridge, with Apple upstream references kept for comparison.</p>
+          <a class="row-link" href="api/">
+            Browse the collection
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </a>
+        </article>
       </section>
 
       <section class="projects page-rail" id="projects" aria-labelledby="projects-title">
