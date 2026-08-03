@@ -9,6 +9,7 @@ const htmlPath = resolve(root, "index.html");
 const html = await readFile(htmlPath, "utf8");
 const containerApiHtml = await readFile(resolve(root, "api/index.html"), "utf8");
 const containerApiDoccTheme = await readFile(resolve(root, "api/docc-theme.css"), "utf8");
+const containerApiBuildScript = await readFile(resolve(root, "scripts/build-container-api-docs.sh"), "utf8");
 const css = await readFile(resolve(root, "styles.css"), "utf8");
 const catalog = validateCatalog(JSON.parse(await readFile(resolve(root, "data/projects.json"), "utf8")));
 
@@ -78,9 +79,25 @@ assert.match(
   "The DocC theme must retain its per-repository icon placeholder",
 );
 
-for (const customHeaderIcon of ["container-k8s-header.png", "devcontainer-header.png"]) {
-  await access(resolve(root, "api/theme", customHeaderIcon));
+for (const repositoryOwnedHeaderIcon of [
+  "engine_api_path/docs/images/container-engine-api-docc-header.png",
+  "container_path/assets/container-docc-header.png",
+  "containerization_path/assets/containerization-docc-header.png",
+  "container_k8s_path/docs/images/container-k8s-docc-header.png",
+  "builder_shim_path/docs/images/container-builder-shim-docc-header.png",
+  "container_compose_path/docs/images/container-compose-docc-card.png",
+  "devcontainer_path/docs/images/devcontainer-docc-header.png",
+]) {
+  assert.ok(
+    containerApiBuildScript.includes(repositoryOwnedHeaderIcon),
+    `Missing repository-owned DocC header icon: ${repositoryOwnedHeaderIcon}`,
+  );
 }
+
+assert.ok(
+  !containerApiBuildScript.includes("repository_root/api/theme"),
+  "DocC header icons must be owned by their component repositories",
+);
 
 for (const upstreamDocumentationUrl of [
   "https://apple.github.io/container/documentation/",

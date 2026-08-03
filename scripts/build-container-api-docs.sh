@@ -75,15 +75,32 @@ build_docc_site() {
     done
 }
 
-standard_header_icon="$container_path/assets/Containerization-Logo.png"
-
-build_docc_site "$engine_api_path" container-engine-api "$standard_header_icon"
-build_docc_site "$container_path" container "$standard_header_icon"
-build_docc_site "$containerization_path" containerization "$standard_header_icon"
-build_docc_site "$container_k8s_path" container-k8s "$repository_root/api/theme/container-k8s-header.png" true
-build_docc_site "$builder_shim_path" container-builder-shim "$standard_header_icon"
+build_docc_site \
+    "$engine_api_path" \
+    container-engine-api \
+    "$engine_api_path/docs/images/container-engine-api-docc-header.png" \
+    true
+build_docc_site "$container_path" container "$container_path/assets/container-docc-header.png"
+build_docc_site \
+    "$containerization_path" \
+    containerization \
+    "$containerization_path/assets/containerization-docc-header.png"
+build_docc_site \
+    "$container_k8s_path" \
+    container-k8s \
+    "$container_k8s_path/docs/images/container-k8s-docc-header.png" \
+    true
+build_docc_site \
+    "$builder_shim_path" \
+    container-builder-shim \
+    "$builder_shim_path/docs/images/container-builder-shim-docc-header.png" \
+    true
 build_docc_site \
     "$container_compose_path" \
     container-compose \
-    "$container_compose_path/Sources/ComposeCore/ComposeCore.docc/Resources/container-compose-docc-card.png"
-build_docc_site "$devcontainer_path" devcontainer "$repository_root/api/theme/devcontainer-header.png" true
+    "$container_compose_path/docs/images/container-compose-docc-card.png"
+build_docc_site \
+    "$devcontainer_path" \
+    devcontainer \
+    "$devcontainer_path/docs/images/devcontainer-docc-header.png" \
+    true
