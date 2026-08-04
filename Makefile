@@ -6,7 +6,7 @@ CONTAINER_API_FILES := api/index.html
 .PHONY: build clean render serve sync test
 
 build: clean
-	mkdir -p $(SITE_DIR)/api $(SITE_DIR)/assets
+	mkdir -p $(SITE_DIR)/api $(SITE_DIR)/assets $(SITE_DIR)/projects
 	cp $(SITE_FILES) $(SITE_DIR)/
 	cp $(SITE_ASSETS) $(SITE_DIR)/assets/
 	cp $(CONTAINER_API_FILES) $(SITE_DIR)/api/
@@ -29,3 +29,4 @@ test:
 	node scripts/render-projects.mjs --check
 	node scripts/check-site.mjs
 	bash -n scripts/build-container-api-docs.sh
+	bash -n scripts/build-project-docs.sh

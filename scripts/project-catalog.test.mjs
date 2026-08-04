@@ -13,6 +13,7 @@ const existingProject = {
   repository: "container-compose",
   name: "Container Compose",
   description: "Curated description.",
+  iconUrl: "api/project-icons/container-compose.png",
   documentationUrl: "https://stephenlclarke.github.io/container-compose/",
   repositoryUrl: "https://github.com/stephenlclarke/container-compose",
 };
@@ -48,6 +49,7 @@ test("merges additions while preserving curated copy and refreshing URLs", () =>
       repository: "new-docs",
       name: "New Docs",
       description: "New documentation.",
+      iconUrl: "https://stephenlclarke.github.io/new-docs/theme/project-icon.png",
       documentationUrl: "https://stephenlclarke.github.io/new-docs/",
       repositoryUrl: "https://github.com/stephenlclarke/new-docs",
     },
@@ -83,5 +85,7 @@ test("renders escaped project data between stable homepage markers", () => {
 
   assert.match(rendered, /Compose &lt;Core&gt;/);
   assert.match(rendered, /A &quot;safe&quot; &amp; useful package\./);
+  assert.match(rendered, /class="project-icon"/);
+  assert.match(rendered, /src="api\/project-icons\/container-compose\.png"/);
   assert.doesNotMatch(rendered, /\nold\n/);
 });

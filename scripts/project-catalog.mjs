@@ -28,6 +28,17 @@ function validateHttpsUrl(value, label) {
   assert.equal(url.protocol, "https:", `${label} must use HTTPS`);
 }
 
+function validateIconUrl(value, label) {
+  if (/^https:\/\//.test(value)) {
+    validateHttpsUrl(value, label);
+    return;
+  }
+
+  assert.ok(!value.startsWith("/"), `${label} must be relative to the site root or use HTTPS`);
+  assert.ok(!value.split("/").includes(".."), `${label} must not traverse outside the site root`);
+  assert.match(value, /\.png$/, `${label} must reference a PNG image`);
+}
+
 export function validateCatalog(catalog) {
   assert.equal(typeof catalog.owner, "string", "Catalog owner must be a string");
   assert.ok(catalog.owner.length > 0, "Catalog owner must not be empty");
@@ -36,7 +47,7 @@ export function validateCatalog(catalog) {
   const repositories = new Set();
 
   for (const project of catalog.projects) {
-    for (const field of ["repository", "name", "description", "documentationUrl", "repositoryUrl"]) {
+    for (const field of ["repository", "name", "description", "iconUrl", "documentationUrl", "repositoryUrl"]) {
       assert.equal(typeof project[field], "string", `${project.repository ?? "Project"} ${field} must be a string`);
       assert.ok(project[field].length > 0, `${project.repository ?? "Project"} ${field} must not be empty`);
     }
@@ -45,6 +56,7 @@ export function validateCatalog(catalog) {
     repositories.add(project.repository);
     validateHttpsUrl(project.documentationUrl, `${project.repository} documentationUrl`);
     validateHttpsUrl(project.repositoryUrl, `${project.repository} repositoryUrl`);
+    validateIconUrl(project.iconUrl, `${project.repository} iconUrl`);
   }
 
   return catalog;
@@ -117,7 +129,10 @@ export function renderProjectRows(projects) {
   return projects
     .map(
       (project) => `          <article class="project-row">
-            <h3>${escapeHtml(project.name)}</h3>
+            <div class="project-title">
+              <img class="project-icon" src="${escapeHtml(project.iconUrl)}" width="72" height="72" alt="">
+              <h3>${escapeHtml(project.name)}</h3>
+            </div>
             <p>${escapeHtml(project.description)}</p>
             <a class="row-link" href="${escapeHtml(project.documentationUrl)}">
               Read documentation

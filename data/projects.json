@@ -2,9 +2,26 @@
   "owner": "stephenlclarke",
   "projects": [
     {
+      "repository": "asteroids",
+      "name": "Asteroids",
+      "description": "Deterministic vector-arcade simulation and native SpriteKit macOS game.",
+      "iconUrl": "projects/asteroids/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/asteroids/",
+      "repositoryUrl": "https://github.com/stephenlclarke/asteroids"
+    },
+    {
+      "repository": "bzflag-swift",
+      "name": "BZFlag Swift",
+      "description": "Native Swift BZFlag client with 3D gameplay, world parsing, and network protocol APIs.",
+      "iconUrl": "projects/bzflag-swift/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/bzflag-swift/",
+      "repositoryUrl": "https://github.com/stephenlclarke/bzflag-swift"
+    },
+    {
       "repository": "container-compose",
       "name": "Container Compose",
       "description": "Docker Compose support for Apple’s container CLI.",
+      "iconUrl": "api/project-icons/container-compose.png",
       "documentationUrl": "https://stephenlclarke.github.io/container-compose/",
       "repositoryUrl": "https://github.com/stephenlclarke/container-compose"
     },
@@ -12,8 +29,33 @@
       "repository": "devcontainer",
       "name": "Devcontainer",
       "description": "VS Code-compatible Dev Container tooling for Apple’s container runtime.",
+      "iconUrl": "api/project-icons/devcontainer.png",
       "documentationUrl": "https://stephenlclarke.github.io/devcontainer/",
       "repositoryUrl": "https://github.com/stephenlclarke/devcontainer"
+    },
+    {
+      "repository": "galaxians",
+      "name": "Galaxians",
+      "description": "Deterministic formation and dive-bombing arcade simulation for a native SpriteKit game.",
+      "iconUrl": "projects/galaxians/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/galaxians/",
+      "repositoryUrl": "https://github.com/stephenlclarke/galaxians"
+    },
+    {
+      "repository": "mac-sync",
+      "name": "Mac Sync",
+      "description": "Core APIs for snapshotting, restoring, scheduling, and synchronising curated macOS configuration.",
+      "iconUrl": "projects/mac-sync/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/mac-sync/",
+      "repositoryUrl": "https://github.com/stephenlclarke/mac-sync"
+    },
+    {
+      "repository": "mytimebuddy",
+      "name": "My Time Buddy",
+      "description": "SwiftUI world-clock, time-zone comparison, and meeting-planning application guide.",
+      "iconUrl": "projects/mytimebuddy/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/mytimebuddy/",
+      "repositoryUrl": "https://github.com/stephenlclarke/mytimebuddy"
     }
   ]
 }

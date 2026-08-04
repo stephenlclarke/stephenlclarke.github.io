@@ -10,6 +10,7 @@ const html = await readFile(htmlPath, "utf8");
 const containerApiHtml = await readFile(resolve(root, "api/index.html"), "utf8");
 const containerApiDoccTheme = await readFile(resolve(root, "api/docc-theme.css"), "utf8");
 const containerApiBuildScript = await readFile(resolve(root, "scripts/build-container-api-docs.sh"), "utf8");
+const projectDocsBuildScript = await readFile(resolve(root, "scripts/build-project-docs.sh"), "utf8");
 const css = await readFile(resolve(root, "styles.css"), "utf8");
 const catalog = validateCatalog(JSON.parse(await readFile(resolve(root, "data/projects.json"), "utf8")));
 
@@ -45,7 +46,14 @@ for (const link of expectedLinks) {
 for (const project of catalog.projects) {
   assert.ok(html.includes(project.name), `Missing project name: ${project.name}`);
   assert.ok(html.includes(project.description), `Missing project description: ${project.description}`);
+  assert.ok(html.includes(`src="${project.iconUrl}"`), `Missing project icon: ${project.repository}`);
 }
+
+assert.equal(
+  [...html.matchAll(/class="project-icon"/g)].length,
+  catalog.projects.length,
+  "Every catalogued project must render exactly one icon",
+);
 
 assert.ok(css.includes("--color-background: #ffffff;"), "The design requires a true white background");
 assert.ok(css.includes(".skip-link:focus"), "The keyboard skip link must have a visible focus state");
@@ -81,6 +89,23 @@ assert.equal(
   containerApiRepositories.length,
   "Each container API project must render exactly one icon",
 );
+
+for (const [repository, variableName] of [
+  ["asteroids", "asteroids"],
+  ["bzflag-swift", "bzflag_swift"],
+  ["galaxians", "galaxians"],
+  ["mac-sync", "mac_sync"],
+  ["mytimebuddy", "mytimebuddy"],
+]) {
+  assert.ok(
+    projectDocsBuildScript.includes(`build_project_site "$${variableName}_path" ${repository}`),
+    `Missing central project documentation build: ${repository}`,
+  );
+  assert.ok(
+    html.includes(`https://stephenlclarke.github.io/projects/${repository}/`),
+    `Missing hosted project documentation link: ${repository}`,
+  );
+}
 assert.ok(css.includes(".project-icon"), "Container API project icons must have responsive presentation styles");
 
 for (const repositoryOwnedProjectIcon of [
@@ -146,7 +171,9 @@ assert.equal(
 
 const localReferences = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]
   .map((match) => match[1])
-  .filter((reference) => !/^(?:https?:|mailto:|#|\/$)/.test(reference));
+  .filter((reference) => !/^(?:https?:|mailto:|#|\/$)/.test(reference))
+  .filter((reference) => !reference.startsWith("api/project-icons/"))
+  .filter((reference) => !reference.startsWith("projects/"));
 
 for (const reference of localReferences) {
   await access(resolve(root, reference));

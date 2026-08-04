@@ -119,6 +119,7 @@ async function discoverDocumentationProject(repository, owner) {
         repository: repository.name,
         name,
         description: repository.description?.trim() || `${name} developer documentation.`,
+        iconUrl: new URL("theme/project-icon.png", documentationUrl).href,
         documentationUrl: normalizePagesUrl(documentationUrl),
         repositoryUrl: repository.html_url,
       };

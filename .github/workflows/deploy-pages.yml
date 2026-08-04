@@ -98,8 +98,76 @@ jobs:
           path: ${{ runner.temp }}/container-api-docs.tgz
           retention-days: 1
 
+  project-docs:
+    name: Build Swift Project Documentation
+    runs-on: macos-26
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v7
+
+      - name: Check out Asteroids
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/asteroids
+          ref: main
+          path: sources/asteroids
+          ssh-key: ${{ secrets.ASTEROIDS_DOCS_DEPLOY_KEY }}
+
+      - name: Check out BZFlag Swift
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/bzflag-swift
+          ref: main
+          path: sources/bzflag-swift
+
+      - name: Check out Galaxians
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/galaxians
+          ref: main
+          path: sources/galaxians
+          ssh-key: ${{ secrets.GALAXIANS_DOCS_DEPLOY_KEY }}
+
+      - name: Check out Mac Sync
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/mac-sync
+          ref: main
+          path: sources/mac-sync
+
+      - name: Check out My Time Buddy
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/mytimebuddy
+          ref: main
+          path: sources/mytimebuddy
+
+      - name: Build project documentation
+        run: |
+          scripts/build-project-docs.sh \
+            "${RUNNER_TEMP}/project-docs" \
+            "${GITHUB_WORKSPACE}/sources/asteroids" \
+            "${GITHUB_WORKSPACE}/sources/bzflag-swift" \
+            "${GITHUB_WORKSPACE}/sources/galaxians" \
+            "${GITHUB_WORKSPACE}/sources/mac-sync" \
+            "${GITHUB_WORKSPACE}/sources/mytimebuddy"
+
+      - name: Archive project documentation
+        run: tar -czf "${RUNNER_TEMP}/project-docs.tgz" -C "${RUNNER_TEMP}/project-docs" .
+
+      - name: Upload project documentation artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: project-docs
+          path: ${{ runner.temp }}/project-docs.tgz
+          retention-days: 1
+
   build:
-    needs: container-api-docs
+    needs:
+      - container-api-docs
+      - project-docs
     runs-on: ubuntu-latest
 
     steps:
@@ -125,6 +193,15 @@ jobs:
 
       - name: Add container API documentation
         run: tar -xzf "${RUNNER_TEMP}/container-api-docs.tgz" -C _site/api
+
+      - name: Download project documentation
+        uses: actions/download-artifact@v8
+        with:
+          name: project-docs
+          path: ${{ runner.temp }}
+
+      - name: Add project documentation
+        run: tar -xzf "${RUNNER_TEMP}/project-docs.tgz" -C _site/projects
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
