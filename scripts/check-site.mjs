@@ -67,8 +67,34 @@ const containerApiRepositories = [
 for (const repository of containerApiRepositories) {
   assert.ok(containerApiHtml.includes(`href="${repository}/"`), `Missing container API link: ${repository}`);
   assert.ok(
+    containerApiHtml.includes(`src="project-icons/${repository}.png"`),
+    `Missing container API project icon: ${repository}`,
+  );
+  assert.ok(
     containerApiHtml.includes(`https://github.com/stephenlclarke/${repository}`),
     `Missing container repository link: ${repository}`,
+  );
+}
+
+assert.equal(
+  [...containerApiHtml.matchAll(/class="project-icon"/g)].length,
+  containerApiRepositories.length,
+  "Each container API project must render exactly one icon",
+);
+assert.ok(css.includes(".project-icon"), "Container API project icons must have responsive presentation styles");
+
+for (const repositoryOwnedProjectIcon of [
+  "engine_api_path/docs/images/container-engine-api-icon.png",
+  "container_path/assets/container-icon.png",
+  "containerization_path/assets/containerization-icon.png",
+  "container_k8s_path/docs/images/container-k8s-icon.png",
+  "builder_shim_path/docs/images/container-builder-shim-icon.png",
+  "container_compose_path/docs/images/container-compose-icon-octopus.png",
+  "devcontainer_path/docs/images/devcontainer-icon.png",
+]) {
+  assert.ok(
+    containerApiBuildScript.includes(repositoryOwnedProjectIcon),
+    `Missing repository-owned landing-page icon: ${repositoryOwnedProjectIcon}`,
   );
 }
 

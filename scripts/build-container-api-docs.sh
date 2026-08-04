@@ -35,6 +35,24 @@ rm -rf "$output_path"
 mkdir -p "$output_path"
 cp "$repository_root/api/index.html" "$output_path/index.html"
 
+# Publish compact landing-page icons from the README artwork owned by each repository.
+copy_project_icon() {
+    local source_path="$1"
+    local icon_name="$2"
+    local project_icons_path="$output_path/project-icons"
+
+    mkdir -p "$project_icons_path"
+    sips -Z 192 "$source_path" --out "$project_icons_path/$icon_name.png" >/dev/null
+}
+
+copy_project_icon "$engine_api_path/docs/images/container-engine-api-icon.png" container-engine-api
+copy_project_icon "$container_path/assets/container-icon.png" container
+copy_project_icon "$containerization_path/assets/containerization-icon.png" containerization
+copy_project_icon "$container_k8s_path/docs/images/container-k8s-icon.png" container-k8s
+copy_project_icon "$builder_shim_path/docs/images/container-builder-shim-icon.png" container-builder-shim
+copy_project_icon "$container_compose_path/docs/images/container-compose-icon-octopus.png" container-compose
+copy_project_icon "$devcontainer_path/docs/images/devcontainer-icon.png" devcontainer
+
 # Build one repository's documentation below its stable API path.
 build_docc_site() {
     local repository_path="$1"

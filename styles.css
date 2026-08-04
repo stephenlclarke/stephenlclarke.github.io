@@ -207,6 +207,21 @@ svg {
   margin: 0;
 }
 
+.project-title {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: clamp(16px, 1.5vw, 22px);
+}
+
+.project-icon {
+  display: block;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  object-fit: contain;
+}
+
 .collection-row h3,
 .project-row h3 {
   font-size: 2rem;
@@ -331,6 +346,12 @@ a:focus-visible {
     font-size: 1.7rem;
   }
 
+  .project-icon {
+    width: 60px;
+    height: 60px;
+    flex-basis: 60px;
+  }
+
   .collection-row p,
   .project-row p {
     grid-column: 1 / -1;
@@ -401,6 +422,7 @@ a:focus-visible {
   .collection-row h3,
   .collection-row p,
   .collection-row .row-link,
+  .project-row .project-title,
   .project-row h3,
   .project-row p,
   .project-row .row-link {
@@ -408,8 +430,15 @@ a:focus-visible {
   }
 
   .collection-row h3,
+  .project-row .project-title,
   .project-row h3 {
     grid-row: 1;
+  }
+
+  .project-icon {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
   }
 
   .collection-row p,
