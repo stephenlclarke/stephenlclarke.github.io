@@ -92,9 +92,12 @@ assert.equal(
 
 for (const [repository, variableName] of [
   ["asteroids", "asteroids"],
+  ["bzflag", "bzflag"],
   ["bzflag-swift", "bzflag_swift"],
   ["galaxians", "galaxians"],
   ["mac-sync", "mac_sync"],
+  ["maze", "maze"],
+  ["mazewar", "mazewar"],
   ["mytimebuddy", "mytimebuddy"],
 ]) {
   assert.ok(

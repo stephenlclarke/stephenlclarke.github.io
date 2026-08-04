@@ -122,6 +122,13 @@ jobs:
           ref: main
           path: sources/bzflag-swift
 
+      - name: Check out BZFlag
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/bzflag
+          ref: main
+          path: sources/bzflag
+
       - name: Check out Galaxians
         uses: actions/checkout@v7
         with:
@@ -144,14 +151,31 @@ jobs:
           ref: main
           path: sources/mytimebuddy
 
+      - name: Check out Maze
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/maze
+          ref: main
+          path: sources/maze
+
+      - name: Check out Mazewar
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/mazewar
+          ref: main
+          path: sources/mazewar
+
       - name: Build project documentation
         run: |
           scripts/build-project-docs.sh \
             "${RUNNER_TEMP}/project-docs" \
             "${GITHUB_WORKSPACE}/sources/asteroids" \
+            "${GITHUB_WORKSPACE}/sources/bzflag" \
             "${GITHUB_WORKSPACE}/sources/bzflag-swift" \
             "${GITHUB_WORKSPACE}/sources/galaxians" \
             "${GITHUB_WORKSPACE}/sources/mac-sync" \
+            "${GITHUB_WORKSPACE}/sources/maze" \
+            "${GITHUB_WORKSPACE}/sources/mazewar" \
             "${GITHUB_WORKSPACE}/sources/mytimebuddy"
 
       - name: Archive project documentation

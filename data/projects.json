@@ -10,6 +10,14 @@
       "repositoryUrl": "https://github.com/stephenlclarke/asteroids"
     },
     {
+      "repository": "bzflag",
+      "name": "BZFlag",
+      "description": "Native SwiftUI local tank arena with deterministic movement, flags, projectiles, and scoring.",
+      "iconUrl": "projects/bzflag/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/bzflag/",
+      "repositoryUrl": "https://github.com/stephenlclarke/bzflag"
+    },
+    {
       "repository": "bzflag-swift",
       "name": "BZFlag Swift",
       "description": "Native Swift BZFlag client with 3D gameplay, world parsing, and network protocol APIs.",
@@ -48,6 +56,22 @@
       "iconUrl": "projects/mac-sync/theme/project-icon.png",
       "documentationUrl": "https://stephenlclarke.github.io/projects/mac-sync/",
       "repositoryUrl": "https://github.com/stephenlclarke/mac-sync"
+    },
+    {
+      "repository": "maze",
+      "name": "Maze",
+      "description": "Perfect-maze generation, traversal, and solution APIs for a native SwiftUI visualiser.",
+      "iconUrl": "projects/maze/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/maze/",
+      "repositoryUrl": "https://github.com/stephenlclarke/maze"
+    },
+    {
+      "repository": "mazewar",
+      "name": "Mazewar",
+      "description": "Classic maze-arena movement, viewpoints, scoring, keyboard controls, and peer-message models.",
+      "iconUrl": "projects/mazewar/theme/project-icon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/projects/mazewar/",
+      "repositoryUrl": "https://github.com/stephenlclarke/mazewar"
     },
     {
       "repository": "mytimebuddy",

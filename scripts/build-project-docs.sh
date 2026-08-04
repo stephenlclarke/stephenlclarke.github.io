@@ -3,17 +3,22 @@
 
 set -euo pipefail
 
-if (( $# != 6 )); then
-    printf 'usage: %s OUTPUT_PATH ASTEROIDS_PATH BZFLAG_SWIFT_PATH GALAXIANS_PATH MAC_SYNC_PATH MYTIMEBUDDY_PATH\n' "$0" >&2
+if (( $# != 9 )); then
+    printf '%s\n' \
+        "usage: $0 OUTPUT_PATH ASTEROIDS_PATH BZFLAG_PATH BZFLAG_SWIFT_PATH" \
+        '       GALAXIANS_PATH MAC_SYNC_PATH MAZE_PATH MAZEWAR_PATH MYTIMEBUDDY_PATH' >&2
     exit 2
 fi
 
 output_path="$1"
 asteroids_path="$2"
-bzflag_swift_path="$3"
-galaxians_path="$4"
-mac_sync_path="$5"
-mytimebuddy_path="$6"
+bzflag_path="$3"
+bzflag_swift_path="$4"
+galaxians_path="$5"
+mac_sync_path="$6"
+maze_path="$7"
+mazewar_path="$8"
+mytimebuddy_path="$9"
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 
 if [[ -z "$output_path" || "$output_path" == "/" ]]; then
@@ -49,7 +54,10 @@ build_project_site() {
 }
 
 build_project_site "$asteroids_path" asteroids
+build_project_site "$bzflag_path" bzflag
 build_project_site "$bzflag_swift_path" bzflag-swift
 build_project_site "$galaxians_path" galaxians
 build_project_site "$mac_sync_path" mac-sync
+build_project_site "$maze_path" maze
+build_project_site "$mazewar_path" mazewar
 build_project_site "$mytimebuddy_path" mytimebuddy
