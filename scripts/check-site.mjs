@@ -75,6 +75,11 @@ for (const repository of containerApiRepositories) {
 assert.match(containerApiDoccTheme, /height: 80px;/, "DocC header icons must share the compact visual height");
 assert.match(
   containerApiDoccTheme,
+  /opacity: 0\.65;/,
+  "DocC header icons must remain legible against the documentation hero",
+);
+assert.match(
+  containerApiDoccTheme,
   /__CONTAINER_API_HEADER_ICON_URL__/,
   "The DocC theme must retain its per-repository icon placeholder",
 );
