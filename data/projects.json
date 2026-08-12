@@ -80,6 +80,14 @@
       "iconUrl": "projects/mytimebuddy/theme/project-icon.png",
       "documentationUrl": "https://stephenlclarke.github.io/projects/mytimebuddy/",
       "repositoryUrl": "https://github.com/stephenlclarke/mytimebuddy"
+    },
+    {
+      "repository": "reforminator",
+      "name": "Reforminator",
+      "description": "Native macOS editor for reviewable, privacy-conscious writing assistance",
+      "iconUrl": "https://raw.githubusercontent.com/stephenlclarke/reforminator/main/Assets/ReformIcon.png",
+      "documentationUrl": "https://stephenlclarke.github.io/reforminator/",
+      "repositoryUrl": "https://github.com/stephenlclarke/reforminator"
     }
   ]
 }
