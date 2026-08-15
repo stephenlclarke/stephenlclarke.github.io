@@ -76,9 +76,8 @@ const containerApiRepositories = [
 
 for (const repository of containerApiRepositories) {
   assert.ok(containerApiHtml.includes(`href="${repository}/"`), `Missing container API link: ${repository}`);
-  const iconExtension = repository === "swift-nio-ssl" ? "svg" : "png";
   assert.ok(
-    containerApiHtml.includes(`src="project-icons/${repository}.${iconExtension}"`),
+    containerApiHtml.includes(`src="project-icons/${repository}.png"`),
     `Missing container API project icon: ${repository}`,
   );
   assert.ok(
@@ -100,10 +99,15 @@ assert.ok(
   "The collection builder must publish the NIOSSL DocC archive",
 );
 assert.ok(
-  containerApiBuildScript.includes('cp "$repository_root/api/swift-nio-ssl-icon.svg"'),
-  "The collection builder must publish the SwiftNIO SSL project icon",
+  containerApiBuildScript.includes(
+    'copy_project_icon "$swift_nio_ssl_path/assets/swift-nio-ssl-icon.png" swift-nio-ssl',
+  ),
+  "The collection builder must publish the repository-owned SwiftNIO SSL project icon",
 );
-await access(resolve(root, "api/swift-nio-ssl-icon.svg"));
+assert.ok(
+  containerApiBuildScript.includes('"$swift_nio_ssl_path/assets/swift-nio-ssl-docc-header.png"'),
+  "The collection builder must apply the repository-owned SwiftNIO SSL DocC header",
+);
 
 assert.equal(
   [...containerApiHtml.matchAll(/class="project-icon"/g)].length,

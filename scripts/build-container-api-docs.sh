@@ -53,7 +53,7 @@ copy_project_icon "$container_k8s_path/docs/images/container-k8s-icon.png" conta
 copy_project_icon "$builder_shim_path/docs/images/container-builder-shim-icon.png" container-builder-shim
 copy_project_icon "$container_compose_path/docs/images/container-compose-icon-octopus.png" container-compose
 copy_project_icon "$devcontainer_path/docs/images/devcontainer-icon.png" devcontainer
-cp "$repository_root/api/swift-nio-ssl-icon.svg" "$output_path/project-icons/swift-nio-ssl.svg"
+copy_project_icon "$swift_nio_ssl_path/assets/swift-nio-ssl-icon.png" swift-nio-ssl
 
 # Apply the collection theme and a repository-specific header icon to one generated DocC site.
 apply_docc_theme() {
@@ -159,8 +159,8 @@ EOF
     apply_docc_theme \
         "$site_path" \
         "$site_name" \
-        "$repository_root/api/swift-nio-ssl-icon.svg" \
-        header-icon.svg \
+        "$swift_nio_ssl_path/assets/swift-nio-ssl-docc-header.png" \
+        header-icon.png \
         true
     rm -rf "$build_root"
 }
