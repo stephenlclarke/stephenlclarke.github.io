@@ -10,6 +10,7 @@ const html = await readFile(htmlPath, "utf8");
 const containerApiHtml = await readFile(resolve(root, "api/index.html"), "utf8");
 const containerApiDoccTheme = await readFile(resolve(root, "api/docc-theme.css"), "utf8");
 const containerApiBuildScript = await readFile(resolve(root, "scripts/build-container-api-docs.sh"), "utf8");
+const deployPagesWorkflow = await readFile(resolve(root, ".github/workflows/deploy-pages.yml"), "utf8");
 const projectDocsBuildScript = await readFile(resolve(root, "scripts/build-project-docs.sh"), "utf8");
 const css = await readFile(resolve(root, "styles.css"), "utf8");
 const catalog = validateCatalog(JSON.parse(await readFile(resolve(root, "data/projects.json"), "utf8")));
@@ -70,12 +71,14 @@ const containerApiRepositories = [
   "container-builder-shim",
   "container-compose",
   "devcontainer",
+  "swift-nio-ssl",
 ];
 
 for (const repository of containerApiRepositories) {
   assert.ok(containerApiHtml.includes(`href="${repository}/"`), `Missing container API link: ${repository}`);
+  const iconExtension = repository === "swift-nio-ssl" ? "svg" : "png";
   assert.ok(
-    containerApiHtml.includes(`src="project-icons/${repository}.png"`),
+    containerApiHtml.includes(`src="project-icons/${repository}.${iconExtension}"`),
     `Missing container API project icon: ${repository}`,
   );
   assert.ok(
@@ -83,6 +86,24 @@ for (const repository of containerApiRepositories) {
     `Missing container repository link: ${repository}`,
   );
 }
+
+assert.ok(
+  deployPagesWorkflow.includes("repository: stephenlclarke/swift-nio-ssl"),
+  "The Pages workflow must check out swift-nio-ssl",
+);
+assert.ok(
+  deployPagesWorkflow.includes('"${GITHUB_WORKSPACE}/sources/swift-nio-ssl"'),
+  "The Pages workflow must pass swift-nio-ssl to the collection builder",
+);
+assert.ok(
+  containerApiBuildScript.includes("build_xcode_docc_site \"$swift_nio_ssl_path\" swift-nio-ssl NIOSSL NIOSSL"),
+  "The collection builder must publish the NIOSSL DocC archive",
+);
+assert.ok(
+  containerApiBuildScript.includes('cp "$repository_root/api/swift-nio-ssl-icon.svg"'),
+  "The collection builder must publish the SwiftNIO SSL project icon",
+);
+await access(resolve(root, "api/swift-nio-ssl-icon.svg"));
 
 assert.equal(
   [...containerApiHtml.matchAll(/class="project-icon"/g)].length,
@@ -162,14 +183,15 @@ for (const upstreamDocumentationUrl of [
   "https://apple.github.io/container/documentation/",
   "https://apple.github.io/containerization/documentation/",
   "https://github.com/apple/container-builder-shim",
+  "https://swiftpackageindex.com/apple/swift-nio-ssl/main/documentation/niossl",
 ]) {
   assert.ok(containerApiHtml.includes(upstreamDocumentationUrl), `Missing Apple upstream link: ${upstreamDocumentationUrl}`);
 }
 
 assert.equal(
   [...containerApiHtml.matchAll(/>Read fork API<\/a>/g)].length,
-  2,
-  "Fork DocC must be the primary action for both Apple-derived projects",
+  3,
+  "Fork DocC must be the primary action for every Apple-derived project with hosted API documentation",
 );
 
 const localReferences = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]

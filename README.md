@@ -4,9 +4,9 @@ A compact front door for Stephen Clarke's published developer documentation.
 
 ## Container developer APIs
 
-The site publishes one atomic container API collection at <https://stephenlclarke.github.io/api/>. The collection contains DocC output generated from the current `stephenlclarke` repositories for `container-engine-api`, `container`, `containerization`, `container-k8s`, `container-builder-shim`, `container-compose`, and `devcontainer` under stable repository-named paths. Fork documentation is always the primary destination; Apple upstream DocC or source repositories are linked secondarily for comparison where they exist.
+The site publishes one atomic container API collection at <https://stephenlclarke.github.io/api/>. The collection contains DocC output generated from the current `stephenlclarke` repositories for `container-engine-api`, `container`, `containerization`, `swift-nio-ssl`, `container-k8s`, `container-builder-shim`, `container-compose`, and `devcontainer` under stable repository-named paths. Fork documentation is always the primary destination; Apple upstream DocC or source repositories are linked secondarily for comparison where they exist.
 
-Each source repository owns its documentation build entrypoint and CI validation. The user-site deployment checks out their current `main` branches, builds all seven sites on macOS, and merges them into the same Pages artifact as the homepage. This avoids competing collection deployments and cross-repository write tokens. A daily scheduled build publishes source documentation updates even when this repository has not changed.
+The user-site deployment checks out each source repository's current `main` branch, builds all eight sites on macOS, and merges them into the same Pages artifact as the homepage. Repository-owned build entrypoints remain authoritative where available; the collection builds `NIOSSL` through its Xcode package scheme because the upstream package does not include the Swift-DocC command plugin. This avoids competing collection deployments and cross-repository write tokens. A daily scheduled build publishes source documentation updates even when this repository has not changed.
 
 ## Project catalogue
 

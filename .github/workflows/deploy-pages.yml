@@ -48,6 +48,13 @@ jobs:
           ref: main
           path: sources/containerization
 
+      - name: Check out swift-nio-ssl
+        uses: actions/checkout@v7
+        with:
+          repository: stephenlclarke/swift-nio-ssl
+          ref: main
+          path: sources/swift-nio-ssl
+
       - name: Check out container-k8s
         uses: actions/checkout@v7
         with:
@@ -86,7 +93,8 @@ jobs:
             "${GITHUB_WORKSPACE}/sources/container-k8s" \
             "${GITHUB_WORKSPACE}/sources/container-builder-shim" \
             "${GITHUB_WORKSPACE}/sources/container-compose" \
-            "${GITHUB_WORKSPACE}/sources/devcontainer"
+            "${GITHUB_WORKSPACE}/sources/devcontainer" \
+            "${GITHUB_WORKSPACE}/sources/swift-nio-ssl"
 
       - name: Archive container API collection
         run: tar -czf "${RUNNER_TEMP}/container-api-docs.tgz" -C "${RUNNER_TEMP}/container-api" .
